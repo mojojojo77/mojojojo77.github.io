@@ -1,0 +1,84 @@
+body{
+	background-color:#375877;
+	}
+div.the-box{
+	background-color:#e7f5ef;
+	box-shadow:20px 20px 30px #2A3A4A;
+	width:auto;
+	margin:auto;
+	height:500px;
+	}
+div.contents{
+	position:relative;
+	width: 88%;
+	height: 300px;
+	margin-left:auto;
+	margin-right:auto;
+	background-color:#e7f5ef;
+	top:8%;
+	display:none;
+	}
+div.contents-loading{
+	position:relative;
+	top:20%;
+	text-align:center;
+	display:none;
+	}
+div.Temp-Date{
+	line-height:0.5;
+	}
+div.wind{
+	position:relative;
+	top:4%;
+	}
+h1.header{
+	color:#ffffff;
+	text-align:center;
+	top:30px;
+	}
+input.input-city{
+	margin-left:auto;
+	margin-right:auto;
+	}
+.btn{
+	background-color:#375877;
+	color:white;
+	width:88%;
+	border-radius:0;
+	box-shadow:2px 2px 2px  #7F7F7F;
+	}
+.btn:hover{
+	color:white;
+	transition:0.4s;
+	}
+#weatherIcon{
+	color:#375877;
+	font-size:50px;
+	padding:0px;
+	}
+.date{
+	color:#375877;
+	font-size:15px;	
+	font-weight:bold;
+	padding:0px;
+	}
+.temp{
+	color:#375877;
+	font-size:70px;
+	padding:0px;
+	}
+.windspeed{
+	color:#375877;
+	font-size:30px;
+	}
+.speed{
+	color:#375877;
+	font-size:30px;	
+	font-weight:bold;
+	}
+.wi-wind{
+	color:#375877;
+	font-size:60px;
+	margin-top:-7%;
+	}
+
