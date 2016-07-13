@@ -53,11 +53,11 @@ $(document).ready(function(){
 		else{
 			weatherIconClass += "night-";	
 			}
-		$.getJSON("//freegeoip.net/json/",status,function(data){
+		$.getJSON("http://freegeoip.net/json/",status,function(data){
 			lat = data.latitude;
 			lon = data.longitude;
 			});
-		urlOWM = "//api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001";
+		urlOWM = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001";
 		$.getJSON(urlOWM,status,function(data){
 			weatherIconClass += data.weather[0].id;
 			celsius = Math.floor(data.main.temp - 273.15);
@@ -74,9 +74,9 @@ $(document).ready(function(){
 		$("#weatherIcon").removeClass(weatherIconClass);
 		weatherIconClass = tempWeatherIconClass;
 		userCity = $("#city").val();
-		urlOWM = "//api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001";
+		urlOWM = "http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001";
 		$.getJSON(urlOWM,status,function(data){
-			urlGMA = "//maps.googleapis.com/maps/api/timezone/json?location="+data.coord.lat+","+data.coord.lon+"&timestamp="+timestamp+"&key=AIzaSyDhay8OvZIBWL-uoedWMapcfH3J7DLvxkM";
+			urlGMA = "http://maps.googleapis.com/maps/api/timezone/json?location="+data.coord.lat+","+data.coord.lon+"&timestamp="+timestamp+"&key=AIzaSyDhay8OvZIBWL-uoedWMapcfH3J7DLvxkM";
 			$.getJSON(urlGMA,status,function(result){
 				timezone = result.timeZoneId;
 				});
