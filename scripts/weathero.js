@@ -45,7 +45,7 @@ $(document).ready(function(){
 				lat = data.latitude;
 				lon = data.longitude;
 				$.ajax({
-					url: "http://cors.io/?u=https://api.forecast.io/forecast/938ea9c32b67be8a23ed0c908a4368a8/"+lat+","+lon,
+					url: " https://crossorigin.me/https://api.forecast.io/forecast/938ea9c32b67be8a23ed0c908a4368a8/"+lat+","+lon,
 					dataType:"json",
 					success: function(data_1){
 						forecastIconClass += data_1.currently.icon;
