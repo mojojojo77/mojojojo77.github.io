@@ -1,7 +1,7 @@
 // Javascript and JQuery here
 $(document).ready(function(){
 //Variables here
-	var forecastIconClass = "wi-forecast-io-";
+	var forecastIconClass = "wi-owm-day-";
 	var tempForecastIconClass = forecastIconClass;
 	var tempCelsius;
 	var currentTimeUnix;
@@ -45,13 +45,13 @@ $(document).ready(function(){
 				lat = data.latitude;
 				lon = data.longitude;
 				$.ajax({
-					url: " https://crossorigin.me/https://api.forecast.io/forecast/938ea9c32b67be8a23ed0c908a4368a8/"+lat+","+lon,
+					url: "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q=jalgaon&APPID=f0deccd8666bd85749986f9353b61001"
 					dataType:"json",
 					success: function(data_1){
-						forecastIconClass += data_1.currently.icon;
-						tempCelsius = data_1.currently.temperature;
-						windBearing = data_1.currently.windBearing;
-						windSpeed = data_1.currently.windSpeed;
+						forecastIconClass += data_1.weather[0].id;
+						tempCelsius = data_1.main.temp;
+						windBearing = data_1.wind.deg;
+						windSpeed = data_1.wind.speed;
 						},
 					complete: function(){
 						$(".contents-loading").hide();
