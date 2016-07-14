@@ -45,7 +45,7 @@ $(document).ready(function(){
 				lat = data.latitude;
 				lon = data.longitude;
 				$.ajax({
-					url: "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q=jalgaon&APPID=f0deccd8666bd85749986f9353b61001"
+					url: "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q=jalgaon&APPID=f0deccd8666bd85749986f9353b61001",
 					dataType:"json",
 					success: function(data_1){
 						forecastIconClass += data_1.weather[0].id;
