@@ -5,11 +5,13 @@ $(document).ready(function(){
 	var lon;
 	var urlOWM;
 	var urlGMA;
+	var userCity;
 	var temperature; 
 	var windSpeed;
 	var windDeg;
 	var convertedTemp;
 	var timezone;
+	var dateString;
 	var time;
 	var weatherIconClass = "wi-owm-";
 	var windDegClass = "towards-";
@@ -31,6 +33,7 @@ $(document).ready(function(){
 			localWeatherFunction();
 		}
 		else{
+			userCity = $("#city").val();
 			globalWeatherFunction();
 		}
 	});
@@ -83,7 +86,58 @@ $(document).ready(function(){
 		});
 	}
 // Global weather function
-	function globalWeatherFunction(){}
+	function globalWeatherFunction(){
+		$.ajax({
+			async : true,
+			dataType: "json",
+			method: "get",
+			url : "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
+			beforeSend : function(){
+				$(".contents").hide();
+				$(".contents-loading").show();
+			},
+			success : function(data){	
+				temperature = Math.floor(convert(data.main.temp,"kelvin","celsius"));
+				windSpeed = Math.floor(data.wind.speed);
+				windDegClass += Math.floor(data.wind.deg) + "-deg";	
+				dataWeatherId = data.weather[0].id;
+				lat = data.coord.lat;
+				lon = data.coord.lon;
+				$.ajax({
+					async : true,
+					dataType: "json",
+					method: "get",
+					url : "https://maps.googleapis.com/maps/api/timezone/json?location="+lat+","+lon+"&timestamp=0&key=AIzaSyDhay8OvZIBWL-uoedWMapcfH3J7DLvxkM",					
+					beforeSend : function(){
+						$(".weatherIcon").removeClass(weatherIconClass);
+						$(".wi-wind").removeClass(windDegClass);	
+						weatherIconClass = tempWeatherIconClass;
+						windDegClass = tempWindDegClass;
+					},
+					success : function(data_1){
+						timezone = moment().tz(data_1.timeZoneId);
+						if(timezone.format("HH") < 20 && timezone.format("HH") > 6){
+							weatherIconClass += "day-";
+						}else{
+							weatherIconClass += "night-";			
+						}
+					},
+					complete : function(){
+						weatherIconClass += dataWeatherId;
+						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
+						$(".date").html(timezone.format("MMM Do hh:mm a"));
+						$(".speed").html(windSpeed + "m/s");
+						$(".weatherIcon").addClass(weatherIconClass);
+						$(".wi-wind").addClass(windDegClass);		
+					}
+				});
+			},
+			complete : function(){	
+				$(".contents-loading").hide();				
+				$(".contents").show();										
+			},		
+		});
+	}
 // Convert between celsius, kelvin and fahrenheit
 	function convert(temp, tempUnit, conversionUnit){
 		switch(tempUnit){
