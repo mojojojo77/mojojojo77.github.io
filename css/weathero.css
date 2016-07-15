@@ -6,6 +6,7 @@ div.the-box{
 	box-shadow:20px 20px 30px #2A3A4A;
 	width:auto;
 	margin:auto;
+	margin-bottom: 30px;
 	height:500px;
 	}
 div.contents{
