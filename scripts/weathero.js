@@ -27,6 +27,16 @@ $(document).ready(function(){
 		}
 	});
 
+// Temperature cursor
+	$(".temp").on({
+		mouseenter: function(){
+			$(".temp").css({"cursor":"pointer", "text-shadow":"2px 2px 5px #375877"});
+		},
+		mouseleave: function(){
+			$(".temp").css({"text-shadow":"none"});
+		}
+	});
+
 // Go to function  
 	$("#enterButton").click(function(){
 		if($("#city").val() === ""){
