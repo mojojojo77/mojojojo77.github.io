@@ -59,6 +59,7 @@ $(document).ready(function(){
 			temperature = Math.floor(convert(data.main.temp,"kelvin","celsius"));
 			windSpeed = Math.floor(data.wind.speed);
 			windDeg = Math.floor(data.wind.deg);
+			alert(weatherIconClass);
 			$("#weatherIcon").addClass(weatherIconClass);
 			$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
 			$(".date").html(time.format("MMM Do hh:mm a"));
