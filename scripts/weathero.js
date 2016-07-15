@@ -71,7 +71,6 @@ $(document).ready(function(){
 						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
 						$(".date").html(time.format("MMM Do hh:mm a"));
 						$(".speed").html(windSpeed + "m/s");
-						alert(weatherIconClass);
 						$(".weatherIcon").addClass(weatherIconClass);
 						$(".wi-wind").addClass(windDegClass);												
 					},		
