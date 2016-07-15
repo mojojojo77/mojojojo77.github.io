@@ -55,7 +55,7 @@ $(document).ready(function(){
 					method: "get",
 					url : urlOWM,
 					beforeSend : function(){
-						$("#weatherIcon").removeClass(weatherIconClass);
+						$(".weatherIcon").removeClass(weatherIconClass);
 						$(".wi-wind").removeClass(windDegClass);	
 						weatherIconClass = tempWeatherIconClass;
 						windDegClass = tempWindDegClass;
@@ -72,7 +72,7 @@ $(document).ready(function(){
 						$(".date").html(time.format("MMM Do hh:mm a"));
 						$(".speed").html(windSpeed + "m/s");
 						alert(weatherIconClass);
-						$("#weatherIcon").addClass(weatherIconClass);
+						$(".weatherIcon").addClass(weatherIconClass);
 						$(".wi-wind").addClass(windDegClass);												
 					},		
 				});
