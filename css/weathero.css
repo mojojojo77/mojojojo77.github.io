@@ -8,6 +8,7 @@ div.the-box{
 	margin:auto;
 	margin-bottom: 30px;
 	height:500px;
+	overflow: hidden;
 	}
 div.contents{
 	position:relative;
@@ -83,6 +84,5 @@ input.input-city{
 .wi-wind{
 	color:#375877;
 	font-size:60px;
-	margin-top:-7%;
 	}
 
