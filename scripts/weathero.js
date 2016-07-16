@@ -6,6 +6,7 @@ $(document).ready(function(){
 	var urlOWM;
 	var urlGMA;
 	var userCity;
+	var cityName;
 	var temperature; 
 	var windSpeed;
 	var windDeg;
@@ -17,6 +18,8 @@ $(document).ready(function(){
 	var windDegClass = "towards-";
 	var tempWeatherIconClass = weatherIconClass;
 	var tempWindDegClass = windDegClass;
+	var tempString;
+	var counter = 0;
 // Field blank or not
 	$("#city").keyup(function(){
 		if($("#city").val() === ""){
@@ -34,11 +37,15 @@ $(document).ready(function(){
 		},
 		mouseleave: function(){
 			$(".temp").css({"text-shadow":"none"});
-		}
+		},
+		click: function(){
+			clickFunction();
+		},
 	});
 
 // Go to function  
 	$("#enterButton").click(function(){
+		counter = 0;
 		if($("#city").val() === ""){
 			localWeatherFunction();
 		}
@@ -75,12 +82,14 @@ $(document).ready(function(){
 					},
 					success : function(data_1){
 						timeFunction();
-						temperature = Math.floor(convert(data_1.main.temp,"kelvin","celsius"));
-						windSpeed = Math.floor(data_1.wind.speed);
+						temperature = convert(data_1.main.temp,"kelvin","celsius");
+						windSpeed = Math.round(data_1.wind.speed);
 						weatherIconClass += data_1.weather[0].id;
-						windDegClass += Math.floor(data_1.wind.deg) + "-deg";
+						windDegClass += Math.round(data_1.wind.deg) + "-deg";
+						cityName = data_1.name;
 					},
 					complete : function(){
+						$("#city").val(cityName);
 						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
 						$(".date").html(time.format("MMM Do hh:mm a"));
 						$(".speed").html(windSpeed + "m/s");
@@ -107,10 +116,11 @@ $(document).ready(function(){
 				$(".contents-loading").show();
 			},
 			success : function(data){	
-				temperature = Math.floor(convert(data.main.temp,"kelvin","celsius"));
-				windSpeed = Math.floor(data.wind.speed);
-				windDegClass += Math.floor(data.wind.deg) + "-deg";	
+				temperature = convert(data.main.temp,"kelvin","celsius");
+				windSpeed = Math.round(data.wind.speed);
+				windDegClass += Math.round(data.wind.deg) + "-deg";	
 				dataWeatherId = data.weather[0].id;
+				cityName = data.name;
 				lat = data.coord.lat;
 				lon = data.coord.lon;
 				$.ajax({
@@ -134,6 +144,7 @@ $(document).ready(function(){
 					},
 					complete : function(){
 						weatherIconClass += dataWeatherId;
+						$("#city").val(cityName);
 						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
 						$(".date").html(timezone.format("MMM Do hh:mm a"));
 						$(".speed").html(windSpeed + "m/s");
@@ -176,7 +187,7 @@ $(document).ready(function(){
 				}
 				break;
 		}
-		return convertedTemp;
+		return Math.round(convertedTemp);
 	}
 // Time Function 
 	function timeFunction(){
@@ -186,6 +197,28 @@ $(document).ready(function(){
 		}else{
 			weatherIconClass += "night-";
 		}		
+	}
+
+// Click function 
+	function clickFunction(){
+		tempString = $(".temp").html();
+		tempString = parseInt(tempString.slice(0,tempString.indexOf("<")));
+		if(counter === 3){
+			counter = 0;
+		}
+		$(".temp").html("");
+		switch(counter){
+			case 0:
+				$(".temp").html(convert(tempString,"celsius","fahrenheit") + "<i class = \"wi wi-fahrenheit\"></i>");
+				break;
+			case 1:
+				$(".temp").html(convert(tempString,"fahrenheit","kelvin") + "<i class = \"wi\">K</i>");
+				break;
+			case 2:
+				$(".temp").html(convert(tempString,"kelvin","celsius") + "<i class = \"wi wi-celsius\"></i>");
+				break;
+		}
+		counter++;
 	}
 });
 
