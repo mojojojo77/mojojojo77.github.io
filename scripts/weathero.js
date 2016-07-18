@@ -68,7 +68,7 @@ $(document).ready(function(){
 			success : function(data){		
 				lat = data.latitude;
 				lon = data.longitude;
-				urlOWM = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
+				urlOWM = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
 				$.ajax({
 					async : true,
 					dataType: "json",
@@ -110,7 +110,7 @@ $(document).ready(function(){
 			async : true,
 			dataType: "json",
 			method: "get",
-			url : "http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
+			url : "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
 			beforeSend : function(){
 				$(".contents").hide();
 				$(".contents-loading").show();
@@ -212,7 +212,7 @@ $(document).ready(function(){
 				$(".temp").html(convert(tempString,"celsius","fahrenheit") + "<i class = \"wi wi-fahrenheit\"></i>");
 				break;
 			case 1:
-				$(".temp").html(convert(tempString,"fahrenheit","kelvin") + "<i class = \"wi\">K</i>");
+				$(".temp").html(convert(tempString,"fahrenheit","kelvin") + "<i class = \"wi wi-degrees\">K</i>");
 				break;
 			case 2:
 				$(".temp").html(convert(tempString,"kelvin","celsius") + "<i class = \"wi wi-celsius\"></i>");
