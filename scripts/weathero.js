@@ -222,3 +222,4 @@ $(document).ready(function(){
 	}
 });
 
+console.log(temperature);
