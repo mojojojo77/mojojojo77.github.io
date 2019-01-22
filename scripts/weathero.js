@@ -67,7 +67,7 @@ $(document).ready(function(){
 			success : function(data){		
 				lat = data.latitude;
 				lon = data.longitude;
-				urlOWM = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
+				urlOWM = "//api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
 				$.ajax({
 					async : true,
 					dataType: "json",
@@ -107,7 +107,7 @@ $(document).ready(function(){
 			async : true,
 			dataType: "json",
 			method: "get",
-			url : "http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
+			url : "//api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
 			beforeSend : function(){
 				$(".contents").hide();
 				$(".contents-loading").show();
