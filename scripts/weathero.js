@@ -6,7 +6,6 @@ $(document).ready(function(){
 	var urlOWM;
 	var urlGMA;
 	var userCity;
-	var cityName;
 	var temperature; 
 	var windSpeed;
 	var windDeg;
@@ -18,8 +17,8 @@ $(document).ready(function(){
 	var windDegClass = "towards-";
 	var tempWeatherIconClass = weatherIconClass;
 	var tempWindDegClass = windDegClass;
-	var tempString;
-	var counter = 0;
+	var timezone;
+	var counter = 0;	
 // Field blank or not
 	$("#city").keyup(function(){
 		if($("#city").val() === ""){
@@ -40,12 +39,11 @@ $(document).ready(function(){
 		},
 		click: function(){
 			clickFunction();
-		},
+		}
 	});
 
 // Go to function  
 	$("#enterButton").click(function(){
-		counter = 0;
 		if($("#city").val() === ""){
 			localWeatherFunction();
 		}
@@ -54,7 +52,8 @@ $(document).ready(function(){
 			globalWeatherFunction();
 		}
 	});
-	// Local weather function 
+
+// Local weather function 
 	function localWeatherFunction(){
 		$.ajax({
 			async : true,
@@ -68,7 +67,7 @@ $(document).ready(function(){
 			success : function(data){		
 				lat = data.latitude;
 				lon = data.longitude;
-				urlOWM = "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
+				urlOWM = "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=f0deccd8666bd85749986f9353b61001"; 
 				$.ajax({
 					async : true,
 					dataType: "json",
@@ -82,14 +81,12 @@ $(document).ready(function(){
 					},
 					success : function(data_1){
 						timeFunction();
-						temperature = convert(data_1.main.temp,"kelvin","celsius");
-						windSpeed = Math.round(data_1.wind.speed);
+						temperature = Math.floor(convert(data_1.main.temp,"kelvin","celsius"));
+						windSpeed = Math.floor(data_1.wind.speed);
 						weatherIconClass += data_1.weather[0].id;
-						windDegClass += Math.round(data_1.wind.deg) + "-deg";
-						cityName = data_1.name;
+						windDegClass += Math.floor(data_1.wind.deg) + "-deg";
 					},
 					complete : function(){
-						$("#city").val(cityName);
 						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
 						$(".date").html(time.format("MMM Do hh:mm a"));
 						$(".speed").html(windSpeed + "m/s");
@@ -110,52 +107,37 @@ $(document).ready(function(){
 			async : true,
 			dataType: "json",
 			method: "get",
-			url : "https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
+			url : "http://api.openweathermap.org/data/2.5/weather?q="+userCity+"&APPID=f0deccd8666bd85749986f9353b61001",
 			beforeSend : function(){
 				$(".contents").hide();
 				$(".contents-loading").show();
+				$(".weatherIcon").removeClass(weatherIconClass);
+				$(".wi-wind").removeClass(windDegClass);	
+				weatherIconClass = tempWeatherIconClass;
+				windDegClass = tempWindDegClass;
 			},
 			success : function(data){	
 				temperature = convert(data.main.temp,"kelvin","celsius");
-				windSpeed = Math.round(data.wind.speed);
-				windDegClass += Math.round(data.wind.deg) + "-deg";	
+				windSpeed = Math.floor(data.wind.speed);
+				windDegClass += Math.floor(data.wind.deg) + "-deg";	
 				dataWeatherId = data.weather[0].id;
-				cityName = data.name;
-				lat = data.coord.lat;
-				lon = data.coord.lon;
-				$.ajax({
-					async : true,
-					dataType: "json",
-					method: "get",
-					url : "https://maps.googleapis.com/maps/api/timezone/json?location="+lat+","+lon+"&timestamp=0&key=AIzaSyDhay8OvZIBWL-uoedWMapcfH3J7DLvxkM",					
-					beforeSend : function(){
-						$(".weatherIcon").removeClass(weatherIconClass);
-						$(".wi-wind").removeClass(windDegClass);	
-						weatherIconClass = tempWeatherIconClass;
-						windDegClass = tempWindDegClass;
-					},
-					success : function(data_1){
-						timezone = moment().tz(data_1.timeZoneId);
-						if(timezone.format("HH") < 20 && timezone.format("HH") > 6){
-							weatherIconClass += "day-";
-						}else{
-							weatherIconClass += "night-";			
-						}
-					},
-					complete : function(){
-						weatherIconClass += dataWeatherId;
-						$("#city").val(cityName);
-						$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
-						$(".date").html(timezone.format("MMM Do hh:mm a"));
-						$(".speed").html(windSpeed + "m/s");
-						$(".weatherIcon").addClass(weatherIconClass);
-						$(".wi-wind").addClass(windDegClass);		
-					}
-				});
+/*				timezone = moment().tz(data_1.timeZoneId);
+				if(timezone.format("HH") < 20 && timezone.format("HH") > 6){
+					weatherIconClass += "day-";
+				}else{
+					weatherIconClass += "night-";			
+				}
+*/
 			},
 			complete : function(){	
+				weatherIconClass += dataWeatherId;
+				$(".temp").html(temperature + "<i class = \"wi wi-celsius\"></i>");
+//				$(".date").html(timezone.format("MMM Do hh:mm a"));
+				$(".speed").html(windSpeed + "m/s");
+				$(".weatherIcon").addClass(weatherIconClass);
+				$(".wi-wind").addClass(windDegClass);											
 				$(".contents-loading").hide();				
-				$(".contents").show();										
+				$(".contents").show();	
 			},		
 		});
 	}
@@ -167,7 +149,7 @@ $(document).ready(function(){
 					convertedTemp = temp - 273.15;
 				}
 				else if(conversionUnit === "fahrenheit"){
-					convertedTemp = (temp*9/5) - 459.67;
+					convertedTemp = (temp * 1.8) - 459.67;
 				}
 				break;
 			case "celsius":
@@ -175,19 +157,20 @@ $(document).ready(function(){
 					convertedTemp = temp + 273.15
 				}
 				else if(conversionUnit === "fahrenheit"){
-					convertedTemp = (temp*9/5) + 32;
+					convertedTemp = (temp*1.8) + 32;
 				}
 				break;
 			case "fahrenheit":
 				if(conversionUnit === "kelvin"){
-					convertedTemp = (temp + 459.67)*5/9;
+					convertedTemp = ((temp-32)*0.5555) + 273.15;
 				}
 				else if(conversionUnit === "celsius"){
-					convertedTemp = (temp -32)*5/9;
+					convertedTemp = (temp -32)* 0.5555;
 				}
 				break;
 		}
-		return Math.round(convertedTemp);
+		console.log(convertedTemp);
+		return Math.round(convertedTemp*100)/100;
 	}
 // Time Function 
 	function timeFunction(){
@@ -198,7 +181,6 @@ $(document).ready(function(){
 			weatherIconClass += "night-";
 		}		
 	}
-
 // Click function 
 	function clickFunction(){
 		tempString = $(".temp").html();
@@ -221,5 +203,3 @@ $(document).ready(function(){
 		counter++;
 	}
 });
-
-console.log(temperature);
