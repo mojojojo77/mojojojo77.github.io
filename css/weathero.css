@@ -1,5 +1,9 @@
 body{
-	background-color:#375877;
+	position:absolute;
+	height:100%;
+	width:100%;
+	margin:-8px;
+	background:linear-gradient(blue,skyblue);	
 	}
 div.the-box{
 	background-color:#e7f5ef;
