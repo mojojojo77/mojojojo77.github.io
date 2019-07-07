@@ -170,7 +170,6 @@ $(document).ready(function(){
 				break;
 		}
 		console.log(convertedTemp);
-		debug_counter_for_convertFunction++;
 		return Math.round(convertedTemp*100)/100;
 	}
 // Time Function 
