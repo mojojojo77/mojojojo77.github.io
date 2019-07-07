@@ -18,14 +18,7 @@ $(document).ready(function(){
 	var tempWeatherIconClass = weatherIconClass;
 	var tempWindDegClass = windDegClass;
 	var timezone;
-	var counter = 0;	
-	
-	var debug_counter_for_convertFunction = 0; 
-	/*
-		Convert function changes the value from celsis to fahrenheit to kelvin.
-		After each iteration some value of temperature is lost or increased which affects the 
-		calculation if the conversion is done for many times. 
-	*/
+	var counter = 0;		
 // Field blank or not
 	$("#city").keyup(function(){
 		if($("#city").val() === ""){
@@ -150,8 +143,6 @@ $(document).ready(function(){
 	}
 // Convert between celsius, kelvin and fahrenheit
 	function convert(temp, tempUnit, conversionUnit){
-		if (debug_counter_for_convertFunction > 1)
-			return;
 		switch(tempUnit){
 			case "kelvin":
 				if(conversionUnit === "celsius"){
